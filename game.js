@@ -48,7 +48,7 @@ server.on("connection", (socket) => {
       );
       return;
     }
-    console.log(client.state);
+    // console.log(client.state);
 
     if (client.state == "sender") {
       socket.write("Waiting for opponent's reply...\n");
@@ -71,7 +71,7 @@ server.on("connection", (socket) => {
     moves.count = moves.count + 1;
 
     if (moves.count == 2) {
-      console.log(moves);
+      // console.log(moves);
 
       moves.count = 0;
       const r = result(moves["1"], moves["2"]);
@@ -88,9 +88,9 @@ server.on("connection", (socket) => {
           break;
       }
 
-      console.log(score);
-      console.log("clientid is " + clientId.toString());
-      console.log("result is --> " + r);
+      // console.log(score);
+      // console.log("clientid is " + clientId.toString());
+      // console.log("result is --> " + r);
 
       clients.forEach((client) => {
         switch (r) {
@@ -122,14 +122,14 @@ server.on("connection", (socket) => {
       });
       return;
     }
-    console.log(moves);
+    // console.log(moves);
   });
 
   socket.on("end", () => {
     console.log(`Client ${clientId} disconnected`);
 
     const index = clients.findIndex((client) => client.id === clientId);
-    console.log(index);
+    // console.log(index);
     if (index == 0) {
       clientIdCounter -= 2;
     } else {
