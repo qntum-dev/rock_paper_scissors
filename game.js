@@ -142,9 +142,35 @@ server.on("connection", (socket) => {
 });
 
 const PORT = 3000;
+// const networkInterfaces = os.networkInterfaces();
+// const address = networkInterfaces["Wi-Fi"][0].address;
+
 const networkInterfaces = os.networkInterfaces();
-const address = networkInterfaces["Wi-Fi"][0].address;
-console.log(address);
+
+let activeInterface = null;
+
+for (const [name, interfaces] of Object.entries(networkInterfaces)) {
+  for (const iface of interfaces) {
+    console.log(iface);
+    if (!iface.internal && iface.family === 'IPv4') {
+      activeInterface = iface;
+      console.log(`Active Interface Name: ${name}`);
+      console.log(`Address: ${iface.address}`);
+      console.log(`Family: ${iface.family}`);
+      break;
+    }
+  }
+  if (activeInterface) break;
+}
+
+if (!activeInterface) {
+  console.log('No active network interface found.');
+  return;
+}
+
+const address = activeInterface.address;
+
+// console.log(address);
 server.listen({ host: address || "0.0.0.0", port: PORT }, () => {
   console.log(`Server started on tcp://${address}:${PORT}`);
 });
